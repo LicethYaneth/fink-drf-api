@@ -7,14 +7,12 @@ from django.utils import timezone
 from django.forms.models import model_to_dict
 from django.utils.dateparse import parse_datetime
 
-
 class UserTestCase(TestCase):
+
+    base_url='/users/api/v1/users'
     def setUp(self):
         self.faker = Faker()
         self.client = APIClient()
-
-        #Crear 5 usuarios nuevos
-        self.expected_users = []
 
         for i in range(5):
             user_data={
@@ -37,9 +35,9 @@ class UserTestCase(TestCase):
 
     def test_users_can_be_queried(self):
 
-        response = self.client.get('/users/api/v1/users/')
+        response = self.client.get(self.base_url+'/')
         actual_users = response.json()
-        #Verificar que la respuesta tiene un c´odigo de estado HTTP 200 
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         #Verificar que los datos de cada usuario coincide con lo esperado
@@ -49,3 +47,17 @@ class UserTestCase(TestCase):
 
             expected_user_dict = model_to_dict(expected_user)
             self.assertDictEqual(actual_user, expected_user_dict)
+
+    def test_can_get_user_by_id(self):
+        expected_user_dict = model_to_dict(self.expected_users[0])
+        response = self.client.get(f'{self.base_url}/{str(expected_user_dict["id"])}/')
+        actual_user = response.json()
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+
+        #Verificar que la información del usurio coincide
+        actual_user['last_login'] = parse_datetime(actual_user['last_login'])
+        actual_user['date_joined'] = parse_datetime(actual_user['date_joined'])
+        
+        self.assertEqual(actual_user, expected_user_dict)
