@@ -21,7 +21,7 @@ BASE_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = ["auth_api","api"]
 
 THIRD_APPS = ["rest_framework"]
 
@@ -97,3 +97,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
