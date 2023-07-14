@@ -1,12 +1,11 @@
 from django.test import TestCase
-from faker import Faker
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
-from django.utils import timezone
 from django.forms.models import model_to_dict
 from django.utils.dateparse import parse_datetime
 from auth_api.tests.unit.factories.user_factories import UserFactory
+
 class UserTestCase(TestCase):
 
     base_url='/users/api/v1/users'
@@ -47,7 +46,7 @@ class UserTestCase(TestCase):
         #Verificar que la información del usurio coincide
         self.assertEqual(actual_user, expected_user_dict)
 
-    def test_can_be_created(self):
+    def test_user_can_be_created(self):
         user = UserFactory.build_user_JSON()
         response= self.client.post(self.base_url+'/',user,format='json')
         actual_user = response.json()
@@ -59,3 +58,13 @@ class UserTestCase(TestCase):
         #Verificar que la información del usurio coincide con el creado
         self.assertEqual(actual_user['username'], user['username'])
 
+    def test_user_can_be_deleted(self):
+        expected_user_dict = model_to_dict(self.expected_users[0])
+        id_user=str(expected_user_dict["id"])
+        response = self.client.delete(f'{self.base_url}/{id_user}/')
+
+        #Verificar que la respuesta tiene un código de estado HTTP 204 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        
+        #Verificar que el usurio ya no se encuentra registrado
+        self.assertFalse(User.objects.filter(id=id_user).exists())
