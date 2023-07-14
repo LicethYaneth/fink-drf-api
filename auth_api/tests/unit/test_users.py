@@ -11,6 +11,7 @@ from django.utils.dateparse import parse_datetime
 class UserTestCase(TestCase):
     def setUp(self):
         self.faker = Faker()
+        self.client = APIClient()
 
         #Crear 5 usuarios nuevos
         self.expected_users = []
@@ -31,21 +32,20 @@ class UserTestCase(TestCase):
             
             User.objects.create(**user_data)
 
+        self.expected_users=User.objects.all()
+
 
     def test_users_can_be_queried(self):
-        client = APIClient()
-        expected_users=User.objects.all()
 
-        response = client.get('/users/api/v1/users/')
+        response = self.client.get('/users/api/v1/users/')
         actual_users = response.json()
         #Verificar que la respuesta tiene un c´odigo de estado HTTP 200 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         #Verificar que los datos de cada usuario coincide con lo esperado
-        for actual_user, expected_user in zip(actual_users, expected_users):
+        for actual_user, expected_user in zip(actual_users, self.expected_users):
             actual_user['last_login'] = parse_datetime(actual_user['last_login'])
             actual_user['date_joined'] = parse_datetime(actual_user['date_joined'])
 
             expected_user_dict = model_to_dict(expected_user)
             self.assertDictEqual(actual_user, expected_user_dict)
-
