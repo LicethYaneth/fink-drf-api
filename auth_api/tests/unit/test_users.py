@@ -68,3 +68,16 @@ class UserTestCase(TestCase):
         
         #Verificar que el usurio ya no se encuentra registrado
         self.assertFalse(User.objects.filter(id=id_user).exists())
+
+    def test_can_be_updated(self):
+        user = UserFactory.build_user_JSON()
+        expected_user_dict = model_to_dict(self.expected_users[0])
+        id_user=str(expected_user_dict["id"])
+        response= self.client.put(f'{self.base_url}/{id_user}/',user,format='json')
+        actual_user = response.json()
+
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        #Verificar que la nueva información del usurio coincida
+        self.assertEqual(actual_user['username'], user['username'])
