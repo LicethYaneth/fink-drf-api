@@ -20,4 +20,5 @@ from rest_framework import routers
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("users/", include('auth_api.urls')),
 ]
