@@ -8,7 +8,7 @@ from auth_api.tests.unit.factories.user_factories import UserFactory
 
 class UserTestCase(TestCase):
 
-    base_url='/users/api/v1/users'
+    base_url='/api/auth/users'
     def setUp(self):
         self.client = APIClient()
 
