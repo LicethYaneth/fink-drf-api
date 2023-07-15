@@ -18,7 +18,18 @@ class UserUtil():
       
 
     def get_branch(user_id):
-      seller = Seller.objects.get(user_id=user_id)
-      branch_store = BranchStore.objects.get(seller=seller)
-      return branch_store
+      try:
+        seller = Seller.objects.get(user_id=user_id)
+        branch_store = BranchStore.objects.get(seller=seller)
+        return branch_store
+      except Seller.DoesNotExist:
+        return {
+          "error": True,
+          "detail": "seller"
+        }
+      except BranchStore.DoesNotExist:
+        return {
+          "error": True,
+          "detail": "branch"
+        }
 

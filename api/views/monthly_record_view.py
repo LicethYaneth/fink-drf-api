@@ -24,6 +24,22 @@ class MonthlyRecordView(APIView):
                 balance = sales - costs
                 user = UserUtil.get_user_info(token)
                 branch = UserUtil.get_branch(user)
+                if branch["error"] is True:
+                    print(branch["detail"])
+                    if branch["detail"] is "branch":
+                        return Response(
+                            data= {
+                                "message": "No se encontro la sucursal"
+                            },
+                            status=status.HTTP_400_BAD_REQUEST
+                        )
+                    if branch["detail"] is "seller":
+                        return Response(
+                            data= {
+                                "message": "El usuario no esta asociado a un vendedor"
+                            },
+                            status=status.HTTP_400_BAD_REQUEST
+                        )
                 MonthlyRecord.objects.create(
                     month=month,
                     sales=sales,
@@ -45,7 +61,8 @@ class MonthlyRecordView(APIView):
                 },
                 status=status.HTTP_200_OK
             )
-        except: 
+        except Exception as e:
+            print(e)
             return Response(
                 data={
                     "message": "Error en el servicio"
