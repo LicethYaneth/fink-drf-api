@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from api.models.branch_store_model import BranchStore
 
-class MontlyRecord(models.Model):
+class MonthlyRecord(models.Model):
     month = models.CharField(max_length=50)
     sales = models.CharField(max_length=100)
     costs = models.CharField(max_length=100)
