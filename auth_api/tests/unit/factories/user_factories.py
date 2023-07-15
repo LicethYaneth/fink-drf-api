@@ -18,3 +18,15 @@ class UserFactory:
         'is_active': True,
         'date_joined': timezone.make_aware(faker.date_time_this_month(),timezone.get_current_timezone()),
         }
+
+    def build_login_JSON(user):
+        return {
+            "username": user["username"],
+            "password": user["password"]
+        }
+    
+    def build_login_fake_JSON():
+        return {
+            'username': faker.user_name(),
+            'password': faker.password(length=10, special_chars=True),
+        }
