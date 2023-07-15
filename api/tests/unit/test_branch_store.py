@@ -30,3 +30,15 @@ class BranchStoreTestCase(TestCase):
             
             self.assertEqual(expected_branch_store_dict['name'],actual_branch_store['name'])
             self.assertEqual(expected_branch_store_dict['address'],actual_branch_store['address'])
+
+    def test_can_get_branch_store_by_id(self):
+        expected_branch_store_dict = model_to_dict(self.expected_branch_stores[0])
+        response = self.client.get(f'{self.base_url}/{str(expected_branch_store_dict["id"])}/')
+        actual_branch_store = response.json()      
+
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        #Verificar que la información de la sucursal coincide
+        self.assertEqual(actual_branch_store['name'], expected_branch_store_dict['name'])
+        self.assertEqual(actual_branch_store['address'], expected_branch_store_dict['address'])
