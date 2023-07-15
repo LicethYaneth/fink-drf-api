@@ -35,3 +35,16 @@ class SellerTestCase(TestCase):
             expected_seller_dict = model_to_dict(expected_seller)
             self.assertEqual(expected_seller.user_id, actual_seller['user'])
             self.assertEqual(expected_seller.branch_store_id, actual_seller['branch_store'])
+
+    def test_can_get_seller_by_id(self):
+        expected_seller_dict = model_to_dict(self.expected_sellers[0])
+        response = self.client.get(f'{self.end_point_sellers}/{str(expected_seller_dict["id"])}/')
+        actual_seller = response.json()
+
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        #Verificar que la información del vendedor coincide
+        self.assertEqual(expected_seller_dict["user"], actual_seller['user'])
+        self.assertEqual(expected_seller_dict["branch_store"], actual_seller['branch_store'])
+
