@@ -53,3 +53,14 @@ class BranchStoreTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         #Verificar que la información de la sucursla coincide con el creado
         self.assertEqual(actual_branch_store['name'], branch_store['name'])
+
+    def test_branch_store_can_be_deleted(self):
+        expected_branch_store_dict = model_to_dict(self.expected_branch_stores[0])
+        id_branch_store=str(expected_branch_store_dict["id"])
+        response = self.client.delete(f'{self.base_url}/{id_branch_store}/')
+
+        #Verificar que la respuesta tiene un código de estado HTTP 204 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        
+        #Verificar que la sucursal ya no se encuentra registrada
+        self.assertFalse(BranchStore.objects.filter(id=id_branch_store).exists())
