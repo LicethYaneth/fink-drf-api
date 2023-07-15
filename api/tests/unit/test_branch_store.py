@@ -64,3 +64,16 @@ class BranchStoreTestCase(TestCase):
         
         #Verificar que la sucursal ya no se encuentra registrada
         self.assertFalse(BranchStore.objects.filter(id=id_branch_store).exists())
+
+    def test_can_be_updated(self):
+        branch_store = BranchStoreFactory.build_branch_store_JSON()
+        expected_branch_store_dict = model_to_dict(self.expected_branch_stores[0])
+        id_branch_store=str(expected_branch_store_dict["id"])
+        response= self.client.put(f'{self.base_url}/{id_branch_store}/',branch_store,format='json')
+        actual_branch_store = response.json()
+
+        #Verificar que la respuesta tiene un código de estado HTTP 200 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        #Verificar que la nueva información de la sucursal coincida con la esperada
+        self.assertEqual(actual_branch_store['name'], branch_store['name'])
