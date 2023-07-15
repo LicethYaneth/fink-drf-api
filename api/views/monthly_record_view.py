@@ -25,8 +25,7 @@ class MonthlyRecordView(APIView):
                 user = UserUtil.get_user_info(token)
                 branch = UserUtil.get_branch(user)
                 if branch["error"] is True:
-                    print(branch["detail"])
-                    if branch["detail"] is "branch":
+                    if branch["detail"] == "branch":
                         return Response(
                             data= {
                                 "message": "No se encontro la sucursal"
@@ -46,7 +45,7 @@ class MonthlyRecordView(APIView):
                     costs=costs,
                     balance=balance,
                     user=user,
-                    branch=branch
+                    branch=branch["branch"]
                 )
                 monthly_balance = {
                     'mes': month,

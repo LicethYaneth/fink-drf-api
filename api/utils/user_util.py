@@ -21,7 +21,10 @@ class UserUtil():
       try:
         seller = Seller.objects.get(user_id=user_id)
         branch_store = BranchStore.objects.get(seller=seller)
-        return branch_store
+        return {
+          "branch": branch_store,
+          "error": False
+        }
       except Seller.DoesNotExist:
         return {
           "error": True,
