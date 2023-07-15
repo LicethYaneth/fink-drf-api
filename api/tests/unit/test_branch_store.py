@@ -42,3 +42,14 @@ class BranchStoreTestCase(TestCase):
         #Verificar que la información de la sucursal coincide
         self.assertEqual(actual_branch_store['name'], expected_branch_store_dict['name'])
         self.assertEqual(actual_branch_store['address'], expected_branch_store_dict['address'])
+
+
+    def test_branch_store_can_be_created(self):
+        branch_store = BranchStoreFactory.build_branch_store_JSON()
+        response= self.client.post(self.base_url+'/',branch_store,format='json')
+        actual_branch_store = response.json()
+
+        #Verificar que la respuesta tiene un código de estado HTTP 201
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        #Verificar que la información de la sucursla coincide con el creado
+        self.assertEqual(actual_branch_store['name'], branch_store['name'])
