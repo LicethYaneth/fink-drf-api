@@ -9,8 +9,6 @@ from django.utils.dateparse import parse_datetime
 from api.tests.unit.factories.seller_factories import SellerFactory
 from api.tests.unit.factories.branch_store_factories import BranchStoreFactory
 from auth_api.tests.unit.factories.user_factories import UserFactory
-from django.utils.timezone import make_aware
-
 
 class SellerTestCase(TestCase):
 
