@@ -120,7 +120,7 @@ Se creo un endpoint para procesar los datos registrados en cuanto a ventas y gas
 
 Se ha implementado un esquema de base de datos para el endpoint 3, utilizando la información del endpoint 2. Este esquema permite almacenar el balance mensual de cada sucursal. Cada vendedor de la sucursal está asociado a un usuario del sistema y es responsable de ingresar la información del balance correspondiente
 
-[Modelo de Base Datos](https://dbdiagram.io/d/64b2eac702bd1c4a5e21aed2)
+![modelo_datos](https://github.com/LicethYaneth/fink-drf-api/assets/25712062/851672e8-0bbf-4be1-b4f7-a40ed62a772b)
 
 
 
