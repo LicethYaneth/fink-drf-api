@@ -5,7 +5,9 @@
 
 ## API en Producción
 
-La URL de la API en producción se encuentra en el siguiente enlace: https://fink-drf-api.onrender.com/api/. Esta URL es la dirección principal a la cual los usuarios pueden acceder para interactuar con la API y utilizar sus servicios. Asegúrate de utilizar esta URL para todas las solicitudes y pruebas de integración con la API en producción.
+La URL de la API en producción se encuentra en el siguiente enlace: https://fink-drf-api.onrender.com/api/. 
+Para las solicitudes de autenticación: https://fink-drf-api.onrender.com/api/auth/
+Esta URL es la dirección principal a la cual los usuarios pueden acceder para interactuar con la API y utilizar sus servicios. Asegúrate de utilizar esta URL para todas las solicitudes y pruebas de integración con la API en producción.
 
 
 ## Ejecución Localmente
